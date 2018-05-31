@@ -1,0 +1,14 @@
+h3{color: #2196f3;padding: 10px}
+i{color: blue}
+
+#msg{padding: 0 0 0 60px;color: #2196f3;font-size: 12px}
+#user,#role{border-bottom: 1px solid lightgrey}
+#userLabel,#roleLabel{padding: 0 20px 0 20px}
+#userInfo{padding: 20px 0 0 100px}
+#roleForm{padding: 6px 0 0 80px;border-left: 1px solid lightgrey}
+#button{padding: 0 0 0 130px}
+#left-bottom{overflow: auto; padding: 0 0 0 100px}
+#left-top{height: 25px;padding: 15px 0 0 140px;border-bottom: 1px solid lightgrey}
+#roleTree{padding: 15px 20px 0 0}
+#row{padding: 15px 40px 0 40px}
+.layui-btn-container{padding-top: 8px}

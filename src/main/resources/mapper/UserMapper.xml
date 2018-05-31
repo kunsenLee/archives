@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.archives.system.dao.user.IUserDao">
+    <resultMap id="BaseResultMap" type="com.archives.system.model.user.UserBean" >
+        <!--
+            WARNING - @mbg.generated
+        -->
+        <id column="USERID" property="userid" jdbcType="DECIMAL" />
+        <result column="USERNUM" property="usernum" jdbcType="VARCHAR" />
+        <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+        <result column="USERPASS" property="userpass" jdbcType="VARCHAR" />
+        <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+        <result column="ORGID" property="orgid" jdbcType="DECIMAL" />
+        <result column="STATE" property="state" jdbcType="VARCHAR" />
+        <result column="REALNAME" property="realname" jdbcType="VARCHAR" />
+        <result column="SEX" property="sex" jdbcType="VARCHAR" />
+        <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+        <result column="MAIL" property="mail" jdbcType="VARCHAR" />
+        <result column="BIRTH" property="birth" jdbcType="DATE" />
+        <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!-- 根据用户名查询用户信息-->
+    <select id="queryByUsername" parameterType="String" resultType="com.archives.system.model.user.UserBean">
+        SELECT * FROM DA_T_SYS_USER WHERE USERNAME = #{VALUE}
+    </select>
+
+    <!-- 根据用户查询权限-->
+    <select id="queryPermsByUserid" parameterType="Integer" resultType="String">
+        SELECT rightcode FROM DA_T_SYS_USER U
+              INNER JOIN DA_T_SYS_USERROLE UR ON U.USERID = UR.USERID
+              INNER JOIN DA_T_SYS_ROLERIGHT RR ON UR.ROLEID = RR.ROLEID
+              INNER JOIN DA_T_SYS_RIGHT R ON RR.RIGHTID = R.RIGHTID
+            WHERE U.USERID = #{VALUE} AND RR.RIGHTSTATE = 1
+    </select>
+
+    <!-- 获取部门树形结构 -->
+    <select id="queryDept" resultType="com.archives.system.model.department.DepartmentBean">
+        SELECT * FROM DA_T_SYS_DEPARTMENT
+    </select>
+
+    <!-- 根据部门id获取该部门用户 -->
+    <select id="queryUserByDeptId" parameterType="Integer" resultType="com.archives.system.model.user.UserBean">
+        SELECT U.* ,D.DEPTNUM,D.DEPTNAME FROM DA_T_SYS_USER U
+              INNER JOIN DA_T_SYS_DEPARTMENT D ON U.DEPTID = D.DEPTID
+            WHERE U.DEPTID = #{VALUE}
+            ORDER BY U.USERNUM
+    </select>
+
+    <!-- 根据部门id获取该部门用户数量 -->
+    <select id="userTotalByDeptId" parameterType="Integer" resultType="Integer">
+          SELECT COUNT(*) FROM DA_T_SYS_USER U
+              INNER JOIN DA_T_SYS_DEPARTMENT D ON U.DEPTID = D.DEPTID
+            WHERE U.DEPTID = #{VALUE}
+    </select>
+
+    <!-- 动态批量删除用户信息 -->
+    <delete id="deleteUser" parameterType="int[]">
+        DELETE FROM DA_T_SYS_USER U WHERE USERID IN
+        <foreach item="userid" collection="array" open="(" separator="," close=")">
+            #{userid}
+        </foreach>
+    </delete>
+
+    <!-- 根据用户id获取用户部门信息 -->
+    <select id="queryUserByUserId" parameterType="Integer" resultType="com.archives.system.model.user.UserBean">
+        SELECT U.* ,D.DEPTNUM,D.DEPTNAME FROM DA_T_SYS_USER U
+          INNER JOIN DA_T_SYS_DEPARTMENT D ON U.DEPTID = D.DEPTID
+        WHERE U.USERID = #{VALUE}
+    </select>
+</mapper>

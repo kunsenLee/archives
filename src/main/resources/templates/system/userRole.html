@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户角色分配</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/ztree/css/demo.css">
+    <link rel="stylesheet" href="/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <link rel="stylesheet" href="/css/userRole.css" media="all">
+
+    <script type="text/javascript" src="/ztree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/ztree/js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+    <script>
+        $(function () {
+            //加载角色树形结构
+            $.ajax({
+                type : "post",
+                url : "/role/getRoleByUserid/" + '${user.userid}',
+                success : function (result) {
+                    for (var i in result ){
+                        if(null !== result[i].userid){
+                            result[i]["checked"] = true;
+                        }
+                    }
+                    $.fn.zTree.init($("#tree"), setting, result);
+                }
+            });
+
+            layui.use(['layer','table'], function () {
+                var layer = parent.layer === undefined ? layui.layer : top.layer
+            });
+        });
+
+        var setting = {
+            check : {
+                enable : true
+            },
+            data : {
+                key : {
+                    name : "rolename"
+                },
+                simpleData : {
+                    enable: true,
+                    idKey: "roleid"
+                }
+            },
+            callback: {
+                onClick: onClick
+            }
+        };
+
+        function onClick(event, treeId, treeNode) {
+            var roleid = treeNode.roleid;
+            $.ajax({
+                type : "post",
+                url : "/role/getRoleInfoByRoleId/" + roleid,
+                success : function (result) {
+                    $("#rolenum").val(result.rolenum);
+                    $("#rolecode").val(result.rolecode);
+                    $("#rolename").val(result.rolename);
+                    $("#rolememo").val(result.rolememo);
+                }
+            });
+        }
+
+        function addUserRole() {
+            var tree = $.fn.zTree.getZTreeObj("tree"),
+                data = tree.getCheckedNodes(true);
+            roleid = [];
+            if(data.length !== 0){
+                for (var i in data) {
+                    roleid.push(data[i].roleid);
+                }
+            }
+            $.ajax({
+                type : "post",
+                url : "/userRole/addUserRole",
+                data : {userid:'${user.userid}',roleid:roleid},
+                success : function (result) {
+                    if (result > 0) {
+                        layer.alert('该用户角色分配成功！', {
+                            icon : 1,
+                            skin : 'layer-ext-moon'
+                        });
+                    } else {
+                        layer.alert('角色分配失败，请重新分配！', {
+                            icon : 2,
+                            skin : 'layer-ext-moon'
+                        });
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div id="userLabel" class="layui-col-md12">
+        <div id="user">
+            <h3>用户信息</h3>
+        </div>
+    </div>
+    <div class="layui-col-md12">
+        <form id="userInfo" class="layui-form layui-form-pane" lay-filter="userInfo">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户编号</label>
+                    <div class="layui-input-inline">
+                        <input id="usernum" name="usernum" value="${user.usernum}" disabled="" class="layui-input" type="text">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input id="username" name="username" value="${user.username}" disabled="" class="layui-input" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input id="realname" name="realname" value="${user.realname}" disabled="" class="layui-input" type="text">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所在部门</label>
+                    <div class="layui-input-inline">
+                        <select id="deptid" name="deptid" disabled="" lay-filter="deptid">
+                            <option value="${user.deptid}">${user.deptname}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="roleLabel" class="layui-col-md12">
+        <div id="role">
+            <h3>角色信息</h3>
+        </div>
+    </div>
+    <div id="row" class="layui-col-md12">
+        <div id="roleTree" class="layui-col-md4">
+            <div id="left-top">
+                <i class="layui-icon">&#xe770;</i>
+                <span>用户角色</span>
+            </div>
+            <div id="left-bottom">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+        <div id="roleInfo" class="layui-col-md7">
+            <label id="msg">* 点击左边的树在此查看角色信息</label>
+            <form id="roleForm" class="layui-form layui-form-pane" lay-filter="roleForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色编号</label>
+                        <div class="layui-input-inline">
+                            <input id="rolenum" name="rolenum" disabled="" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色授权码</label>
+                        <div class="layui-input-inline">
+                            <input id="rolecode" name="rolecode" disabled="" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色名称</label>
+                        <div class="layui-input-inline">
+                            <input id="rolename" name="rolename" disabled="" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色说明</label>
+                        <div class="layui-input-inline">
+                            <input id="rolememo" name="rolememo" disabled="" class="layui-input" type="text" style="width: 400px">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="button" class="layui-col-md12">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="addUserRole" onclick="addUserRole()">
+                <i class="layui-icon">&#xe61f;</i>保存
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="updateUser" data-type="updateUser">
+                <i class="layui-icon">&#xe642;</i>关闭
+            </button>
+        </div>
+    </div>
+</body>
+</html>

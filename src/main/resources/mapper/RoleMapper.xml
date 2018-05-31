@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.archives.system.dao.role.IRoleDao" >
+  <resultMap id="BaseResultMap" type="com.archives.system.model.role.RoleBean" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ROLEID" property="roleid" jdbcType="DECIMAL" />
+    <result column="ROLECODE" property="rolecode" jdbcType="VARCHAR" />
+    <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
+    <result column="ROLENUM" property="rolenum" jdbcType="VARCHAR" />
+    <result column="ROLEMEMO" property="rolememo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="queryRoleByUserId" parameterType="Integer" resultType="com.archives.system.model.role.RoleBean">
+      select t.* ,ur.userid from DA_T_SYS_ROLE t
+          left join DA_T_SYS_USERROLE ur
+            on t.roleid = ur.roleid and userid = #{VALUE}
+  </select>
+</mapper>

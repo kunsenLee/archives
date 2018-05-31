@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/layui/layui.js"></script>
+    <script type="text/javascript" src="/js/system/userAdd.js"></script>
+</head>
+<body>
+    <form class="layui-form layui-form-pane" style="padding: 40px 0 0 30px">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用户编号</label>
+                <div class="layui-input-inline">
+                    <input id="usernum" name="usernum" lay-verify="required" placeholder="请输入用户编号，必填" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input id="username" name="username" lay-verify="required" placeholder="请输入用户名，必填" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input id="userpass" name="userpass" lay-verify="required" placeholder="请输入密码，必填" autocomplete="off" class="layui-input" type="password">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">重复密码</label>
+                <div class="layui-input-inline">
+                    <input id="userpassrept" name="userpassrept" lay-verify="required|pass" placeholder="请重复输入密码" autocomplete="off" class="layui-input" type="password">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input id="realname" name="realname" lay-verify="required" placeholder="请输入姓名，必填" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input name="sex" value="男" title="男" checked="" type="radio">
+                    <input name="sex" value="女" title="女" type="radio">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所在部门</label>
+                <div class="layui-input-inline">
+                    <select id="deptid" name="deptid" lay-filter="deptid" lay-verify="required">
+                        <option value="">请选择部门</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input id="mail" name="mail" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input id="state" checked="" name="state" lay-skin="switch" lay-filter="state" lay-text="启用|停用" type="checkbox">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea id="memo" placeholder="请输入内容" class="layui-textarea" name="memo"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="addUser">添加</button>
+            <button class="layui-btn layui-btn-primary" type="reset" >重置</button>
+        </div>
+    </form>
+</body>
+</html>

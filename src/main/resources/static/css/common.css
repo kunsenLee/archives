@@ -1,0 +1,11 @@
+/*重写表格样式*/
+.layui-btn-xs{height: 21px;line-height: 21px;}
+.layui-table-view .layui-table[lay-size="sm"] .layui-table-cell{height: 22px;line-height: 22px;}
+.layui-form-switch{height: 18px;line-height: 18px;}
+.layui-form-switch i{top:1px;}
+.layui-form-onswitch{border-color: #AAB8EA;background-color: #AAB8EA}
+
+a:hover {color: white;  border-bottom: 1px solid;}
+.layui-input{height: 30px;}
+.layui-input::placeholder{color:#757575;}
+.layui-form-checked[lay-skin="primary"] i{background-color: #AAB8EA}

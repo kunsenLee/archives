@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="Oracle" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.archives.foundation.util.UtilMapper"></property>
+        </plugin>
+        
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@localhost:1521:demo"
+                        userId="demo"
+                        password="demo">
+
+        </jdbcConnection>
+
+        <!--对应生成的实体类所在包-->
+        <javaModelGenerator targetPackage="com.archives.config.generator.bean" targetProject="src/main/java"></javaModelGenerator>
+
+        <!--对应生成的mapper所在目录-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"></sqlMapGenerator>
+
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.archives.config.generator.mapper" targetProject="src/main/java"></javaClientGenerator>
+
+        <table tableName="DA_T_SYS_USERROLE">
+            <generatedKey column="userroleid" sqlStatement="select SEQ_{1}.nextval from dual" identity="true" />
+        </table>
+    </context>
+</generatorConfiguration>

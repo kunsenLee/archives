@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.archives.system.dao.common.ICommonDao">
+
+
+    <select id="queryAllPerms" resultType="com.archives.system.model.right.RightBean">
+        SELECT * FROM DA_T_SYS_RIGHT
+    </select>
+
+    <!-- 根据当前用户获取顶部菜单 -->
+    <select id="queryTopNavs" parameterType="java.lang.Integer" resultType="com.archives.system.model.right.RightBean">
+        SELECT * FROM DA_T_SYS_USER U
+            INNER JOIN DA_T_SYS_USERROLE UR ON U.USERID = UR.USERID
+            INNER JOIN DA_T_SYS_ROLERIGHT RR ON UR.ROLEID = RR.ROLEID
+            INNER JOIN DA_T_SYS_RIGHT R ON RR.RIGHTID = R.RIGHTID
+         WHERE U.USERID = #{VALUE} AND R.RIGHTCLASSIFY = 0 AND RR.RIGHTSTATE = 1 AND R.PARENTID IS NULL
+         ORDER BY RIGHTORDER
+    </select>
+
+    <!-- 根据当前用户以及一级菜单获取二级菜单 -->
+    <select id="queryChildNavs" parameterType="java.lang.Integer" resultType="com.archives.system.model.right.RightBean">
+        SELECT * FROM DA_T_SYS_USER U
+            INNER JOIN DA_T_SYS_USERROLE UR ON U.USERID = UR.USERID
+            INNER JOIN DA_T_SYS_ROLERIGHT RR ON UR.ROLEID = RR.ROLEID
+            INNER JOIN DA_T_SYS_RIGHT R ON RR.RIGHTID = R.RIGHTID
+         WHERE U.USERID = #{arg0} AND R.PARENTID = #{arg1} AND R.RIGHTCLASSIFY = 0 AND RR.RIGHTSTATE = 1 AND R.PARENTID IS NOT NULL
+         ORDER BY RIGHTORDER
+    </select>
+</mapper>
