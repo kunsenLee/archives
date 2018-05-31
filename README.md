@@ -2,4 +2,4 @@
 
 ## 通用档案系统
 
-### springboot + mybatis + freemarker + layui + shiro + oracle
+### spring-boot + mybatis + freemarker + layui + shiro + oracle
