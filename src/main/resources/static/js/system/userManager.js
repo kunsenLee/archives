@@ -9,7 +9,7 @@ $(function () {
         url : "/user/getDeptTree",
         success : function (result) {
             for (var i in result ){
-                if(result[i].parentid == 0){
+                if(result[i].parentid === 0){
                     result[i].open = true;
                 }
             }

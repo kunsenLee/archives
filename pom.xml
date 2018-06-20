@@ -113,7 +113,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.px.checkdata.CheckdataApplication</mainClass>
+					<mainClass>com.archives.ArchivesApplication</mainClass>
 					<fork>true</fork>
 				</configuration>
 				<executions>

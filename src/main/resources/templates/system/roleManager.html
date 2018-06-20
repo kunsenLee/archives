@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="/css/common.css" media="all">
     <script type="text/javascript" src="/layui/layui.js"></script>
     <style>
-        #toolBar{padding: 20px 0 0 40px}
-        #table{padding: 10px 20px 0 20px}
+        #toolBar{padding: 15px 0 0 40px}
+        #table{padding: 5px 20px 20px 20px}
         #searchUser{width: 150px}
     </style>
     <script>
@@ -31,17 +31,18 @@
                 elem : '#roleTable',
                 url : '/role/getRole',
                 page : true,
+                height: 'full-300',
                 limits : [5,10,15],
                 limit : 10,
                 id : "roleTable",
                 size : 'sm',
                 cols : [[
                     {type:'checkbox'},
-                    {field:'rolenum',title:'角色编号',width:110,sort:true,align:'center'},
-                    {field:'rolename',title:'角色名称',width:110,align:'center'},
-                    {field:'rolecode',title:'角色授权码',width:110,align:'center'},
-                    {field:'rolememo',title:'角色描述',width:480,align:'center'},
-                    {title:'操作',width:240,templet:'#roleBar',fixed:"right",align:"center"}
+                    {field:'rolenum',title:'角色编号',width:'10%',sort:true,align:'center'},
+                    {field:'rolename',title:'角色名称',width:'16.7%',align:'center'},
+                    {field:'rolecode',title:'角色授权码',width:'15%',align:'center'},
+                    {field:'rolememo',title:'角色描述',width:'35%',align:'center'},
+                    {title:'操作',width:'20%',templet:'#roleBar',fixed:"right",align:"center"}
                 ]]
 
             })
